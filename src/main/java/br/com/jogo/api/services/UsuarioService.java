@@ -15,23 +15,16 @@ public class UsuarioService {
 	UsuarioRepository usuarioRepository;
 	
 	@Autowired
-	EmailService emailService;
-	
-	@Autowired
 	PasswordEncoder passwordEncoder;
 	
 	public Usuario cadastro(Usuario usuario){
-		String pass = passwordEncoder.encode(usuario.getSenha());
-		usuario.setSenha(pass);
-		enviarEmail(usuario);
+		configuraSenha(usuario);
+		new EmailService(usuario, new Mensagem());
 		return usuarioRepository.save(usuario);
 	}
 
-	private void enviarEmail(Usuario usuario) {
-		Mensagem msg = new Mensagem();
-		msg.setTopico("Bem vindo a Kabil");
-		msg.setDestinatario(usuario.getEmail());
-		msg.setCorpo("Só um teste nessa merda vtnc se envia essa merda");
-		emailService.enviar(msg);
+	private void configuraSenha(Usuario usuario) {
+		String pass = passwordEncoder.encode(usuario.getSenha());
+		usuario.setSenha(pass);
 	}
 }
