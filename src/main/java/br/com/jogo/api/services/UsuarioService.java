@@ -1,6 +1,7 @@
 package br.com.jogo.api.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +16,14 @@ public class UsuarioService {
 	UsuarioRepository usuarioRepository;
 	
 	@Autowired
+	private JavaMailSender javaMailSender;
+	
+	@Autowired
 	PasswordEncoder passwordEncoder;
 	
 	public Usuario cadastro(Usuario usuario){
 		configuraSenha(usuario);
-		new EmailService(usuario, new Mensagem());
+		new EmailService(usuario, new Mensagem(), javaMailSender).executa();
 		return usuarioRepository.save(usuario);
 	}
 
