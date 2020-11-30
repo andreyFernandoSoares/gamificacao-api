@@ -50,6 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	//Configuração de Autorização
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.cors();
 		http.authorizeRequests()
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
 		.antMatchers(HttpMethod.POST, "/usuario/cadastro").permitAll()

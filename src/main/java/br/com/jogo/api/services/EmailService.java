@@ -26,14 +26,18 @@ public class EmailService implements ExecutaService {
 	}
 
 	private void enviaMsg() {
-		System.out.println("Enviando Email...");
-		SimpleMailMessage mensagem = new SimpleMailMessage();
-		mensagem.setFrom("kabil.contabil@gmail.com");
-		mensagem.setTo(msg.getDestinatario());
-		mensagem.setSubject(msg.getTopico());
-		mensagem.setText(msg.getCorpo());
-		javaMailSender.send(mensagem);
-		System.out.println("Enviado!");
+		try {
+			System.out.println("Enviando Email...");
+			SimpleMailMessage mensagem = new SimpleMailMessage();
+			mensagem.setFrom("kabil.contabil@gmail.com");
+			mensagem.setTo(msg.getDestinatario());
+			mensagem.setSubject(msg.getTopico());
+			mensagem.setText(msg.getCorpo());
+			javaMailSender.send(mensagem);
+			System.out.println("Enviado!");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	private void montaMsg() {

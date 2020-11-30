@@ -24,4 +24,9 @@ public class LoginForm {
 	public UsernamePasswordAuthenticationToken converter() {
 		return new UsernamePasswordAuthenticationToken(nome, senha);
 	}
+	
+	@Override
+	public String toString() {
+		return "LoginForm [nome=" + nome + ", senha=" + senha + "]";
+	}
 }
