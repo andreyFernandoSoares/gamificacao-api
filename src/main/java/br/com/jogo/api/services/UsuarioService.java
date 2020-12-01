@@ -13,13 +13,13 @@ import br.com.jogo.api.repositories.UsuarioRepository;
 public class UsuarioService {
 	
 	@Autowired
-	UsuarioRepository usuarioRepository;
+	private UsuarioRepository usuarioRepository;
 	
 	@Autowired
 	private JavaMailSender javaMailSender;
 	
 	@Autowired
-	PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 	
 	public Usuario cadastro(Usuario usuario){
 		configuraSenha(usuario);
