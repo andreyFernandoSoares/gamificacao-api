@@ -29,7 +29,7 @@ public class BalancoPatrimonialController {
 	}
 	
 	@GetMapping("/{id}")
-	public BalancoPatrimonial buscarPorUsuarioId(@PathVariable Long usuarioId) {
-		return balancoService.buscarPorUsuarioId(usuarioId);
+	public BalancoPatrimonial buscarPorUsuarioId(@PathVariable Long id) {
+		return balancoService.buscarPorUsuarioId(id);
 	}
 }

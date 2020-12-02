@@ -43,6 +43,6 @@ public class EmailService implements ExecutaService {
 	private void montaMsg() {
 		msg.setTopico("Bem vindo a Kabil");
 		msg.setDestinatario(usuario.getEmail());
-		msg.setCorpo("Só um teste nessa merda vtnc se envia essa merda");
+		msg.setCorpo("O melhor jogo contabil que voce ja viu!");
 	}
 }

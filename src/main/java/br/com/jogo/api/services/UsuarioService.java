@@ -32,7 +32,8 @@ public class UsuarioService {
 		configuraSenha(usuario);
 		new EmailService(usuario, new Mensagem(), javaMailSender).executa();
 		Usuario usuarioCriado = usuarioRepository.save(usuario);
-		balancoRepository.save(new BalancoPatrimonial(usuarioCriado));
+		BalancoPatrimonial balancoPatrimonial = new BalancoPatrimonial(usuarioCriado);
+		balancoRepository.save(balancoPatrimonial);
 		return usuarioCriado;
 	}
 
