@@ -1,9 +1,13 @@
 package br.com.jogo.api.controllers;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,9 +22,14 @@ public class BalancoPatrimonialController {
 	@Autowired
 	BalancoPatrimonialService balancoService;
 	
-	@PostMapping
+	@PutMapping
 	@Transactional
-	public BalancoPatrimonial gravar(@RequestBody BalancoPatrimonial balanco) {
-		return balancoService.gravar(balanco);
+	public ResponseEntity<?> alterar(@RequestBody @Valid BalancoPatrimonial form){
+		return balancoService.alterar(form);
+	}
+	
+	@GetMapping("/{id}")
+	public BalancoPatrimonial buscarPorUsuarioId(@PathVariable Long usuarioId) {
+		return balancoService.buscarPorUsuarioId(usuarioId);
 	}
 }

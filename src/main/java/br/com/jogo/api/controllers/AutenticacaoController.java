@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.jogo.api.config.security.TokenService;
 import br.com.jogo.api.dtos.TokenDto;
 import br.com.jogo.api.forms.LoginForm;
+import br.com.jogo.api.services.UsuarioService;
 
 @RestController
 @RequestMapping("/auth")
@@ -23,6 +24,9 @@ public class AutenticacaoController {
 	
 	@Autowired
 	private TokenService tokenService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -33,8 +37,9 @@ public class AutenticacaoController {
 		try {
 			System.out.println(form);
 			Authentication authentication = authenticationManager.authenticate(dadosLogin);
+			Long id = usuarioService.buscarPorNome(form.getNome());
 			String token = tokenService.gerarToken(authentication);
-			return ResponseEntity.ok(new TokenDto(token, "Bearer"));
+			return ResponseEntity.ok(new TokenDto(token, "Bearer", id));
 		} catch (AuthenticationException e) {
 			return ResponseEntity.notFound().build();
 		}
