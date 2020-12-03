@@ -25,6 +25,17 @@ public class Sala {
 	
 	@OneToMany
 	private List<Atividade> listaAtividades;
+	
+	private Integer ativa;
+	
+	public Sala() {}
+
+	public Sala(String codigo, Usuario usuario, List<Atividade> atividades) {
+		this.codigo = codigo;
+		this.usuario = usuario;
+		this.listaAtividades = atividades;
+		this.ativa = 1;
+	}
 
 	public Long getId() {
 		return id;
@@ -70,5 +81,13 @@ public class Sala {
 	public String toString() {
 		return "Sala [id=" + id + ", codigo=" + codigo + ", usuario=" + usuario + ", listaJogadores=" + listaJogadores
 				+ ", listaAtividades=" + listaAtividades + "]";
+	}
+
+	public Integer getAtiva() {
+		return ativa;
+	}
+
+	public void setAtiva(Integer ativa) {
+		this.ativa = ativa;
 	}
 }

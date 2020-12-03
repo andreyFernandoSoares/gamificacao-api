@@ -14,7 +14,6 @@ public class Atividade {
 	private String descricao;
 	private String debito;
 	private String credito;
-	private Float valor;
 	
 	public Long getId() {
 		return id;
@@ -40,16 +39,8 @@ public class Atividade {
 	public void setCredito(String credito) {
 		this.credito = credito;
 	}
-	public Float getValor() {
-		return valor;
-	}
-	public void setValor(Float valor) {
-		this.valor = valor;
-	}
-	
 	@Override
 	public String toString() {
-		return "Atividade [id=" + id + ", descricao=" + descricao + ", debito=" + debito + ", credito=" + credito
-				+ ", valor=" + valor + "]";
+		return "Atividade [id=" + id + ", descricao=" + descricao + ", debito=" + debito + ", credito=" + credito + "]";
 	}
 }
