@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +25,9 @@ public class Usuario implements UserDetails {
 	private String nome;
 	private String email;
 	private String senha;
+	
+	@OneToOne
+	private BalancoPatrimonial balacoPatrimonial;
 	
 	@ManyToMany(fetch=FetchType.EAGER)
 	private List<Perfil> perfis = new ArrayList<>();
@@ -119,4 +123,19 @@ public class Usuario implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+	
+	public BalancoPatrimonial getBalacoPatrimonial() {
+		return balacoPatrimonial;
+	}
+
+	public void setBalacoPatrimonial(BalancoPatrimonial balacoPatrimonial) {
+		this.balacoPatrimonial = balacoPatrimonial;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + ", senha=" + senha + ", balacoPatrimonial="
+				+ balacoPatrimonial + ", perfis=" + perfis + "]";
+	}
 }
+

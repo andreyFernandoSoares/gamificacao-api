@@ -1,5 +1,6 @@
 package br.com.jogo.api.models;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -28,13 +29,16 @@ public class Sala {
 	
 	private Integer ativa;
 	
+	private LocalDateTime validade;
+	
 	public Sala() {}
 
-	public Sala(String codigo, Usuario usuario, List<Atividade> atividades) {
+	public Sala(String codigo, Usuario usuario, List<Atividade> atividades, LocalDateTime validade) {
 		this.codigo = codigo;
 		this.usuario = usuario;
 		this.listaAtividades = atividades;
 		this.ativa = 1;
+		this.validade = validade;
 	}
 
 	public Long getId() {
@@ -76,18 +80,26 @@ public class Sala {
 	public void setListaAtividades(List<Atividade> listaAtividades) {
 		this.listaAtividades = listaAtividades;
 	}
-
-	@Override
-	public String toString() {
-		return "Sala [id=" + id + ", codigo=" + codigo + ", usuario=" + usuario + ", listaJogadores=" + listaJogadores
-				+ ", listaAtividades=" + listaAtividades + "]";
-	}
-
+	
 	public Integer getAtiva() {
 		return ativa;
 	}
 
 	public void setAtiva(Integer ativa) {
 		this.ativa = ativa;
+	}
+
+	public LocalDateTime getValidade() {
+		return validade;
+	}
+
+	public void setValidade(LocalDateTime validade) {
+		this.validade = validade;
+	}
+
+	@Override
+	public String toString() {
+		return "Sala [id=" + id + ", codigo=" + codigo + ", usuario=" + usuario + ", listaJogadores=" + listaJogadores
+				+ ", listaAtividades=" + listaAtividades + "]";
 	}
 }

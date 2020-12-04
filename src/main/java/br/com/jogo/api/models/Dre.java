@@ -10,9 +10,6 @@ public class Dre {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
-	
-	private String nomeAluno;
-	
 	private Float receitaBruta;
 	private Float vendaMercadorias;
 	private Float deducoesReceitaBruta;
@@ -31,12 +28,6 @@ public class Dre {
 	}
 	public void setId(Long id) {
 		this.id = id;
-	}
-	public String getNomeAluno() {
-		return nomeAluno;
-	}
-	public void setNomeAluno(String nomeAluno) {
-		this.nomeAluno = nomeAluno;
 	}
 	public Float getReceitaBruta() {
 		return receitaBruta;

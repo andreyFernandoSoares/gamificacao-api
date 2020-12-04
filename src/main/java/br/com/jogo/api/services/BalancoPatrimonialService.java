@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.jogo.api.models.BalancoPatrimonial;
+import br.com.jogo.api.models.Usuario;
 import br.com.jogo.api.repositories.BalancoPatrimonialRepository;
 import br.com.jogo.api.repositories.UsuarioRepository;
 
@@ -28,11 +29,10 @@ public class BalancoPatrimonialService {
 	}
 
 	public BalancoPatrimonial buscarPorUsuarioId(Long id) {
-		System.out.println(id);
-		Optional<BalancoPatrimonial> balanco = balancoRepository.findByUsuarioId(id);
+		Optional<Usuario> usuario = usuarioRepository.findById(id);
 		
-		if (balanco.isPresent()) {
-			return balanco.get();
+		if (usuario.isPresent()) {
+			return usuario.get().getBalacoPatrimonial();
 		}
 			
 		return null;

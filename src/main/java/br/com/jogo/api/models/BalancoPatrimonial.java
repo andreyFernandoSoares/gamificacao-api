@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 @Entity
 public class BalancoPatrimonial {
@@ -12,9 +11,6 @@ public class BalancoPatrimonial {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@OneToOne
-	private Usuario usuario;
 	
 	private Float ativo;
 	private Float passivo;
@@ -52,10 +48,6 @@ public class BalancoPatrimonial {
 
 	}
 
-	public BalancoPatrimonial(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -64,12 +56,16 @@ public class BalancoPatrimonial {
 		this.id = id;
 	}
 
-	public Float getAtivo() {
+	public Float AtivoCirculante() {
 		return ativo;
 	}
 
 	public void setAtivo(Float ativo) {
 		this.ativo = ativo;
+	}
+	
+	public Float getAtivo() {
+		return ativo;
 	}
 
 	public Float getPassivo() {
@@ -230,12 +226,5 @@ public class BalancoPatrimonial {
 
 	public void setCapitalSocial(Float capitalSocial) {
 		this.capitalSocial = capitalSocial;
-	}
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
 	}
 }

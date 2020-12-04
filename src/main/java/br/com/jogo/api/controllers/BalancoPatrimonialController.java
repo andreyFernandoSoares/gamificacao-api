@@ -20,7 +20,7 @@ import br.com.jogo.api.services.BalancoPatrimonialService;
 public class BalancoPatrimonialController {
 	
 	@Autowired
-	BalancoPatrimonialService balancoService;
+	private BalancoPatrimonialService balancoService;
 	
 	@PutMapping
 	@Transactional

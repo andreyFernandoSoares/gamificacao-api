@@ -18,6 +18,7 @@ public class Jogador {
 	@OneToOne
 	private Dre dre;
 	
+	private String codigo;
 	private String nome;
 
 	public Long getId() {
@@ -51,9 +52,18 @@ public class Jogador {
 	public void setDre(Dre dre) {
 		this.dre = dre;
 	}
+	
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
 
 	@Override
 	public String toString() {
-		return "Jogador [id=" + id + ", nome=" + nome + "]";
+		return "Jogador [id=" + id + ", balanco=" + balanco + ", dre=" + dre + ", codigo=" + codigo + ", nome=" + nome
+				+ "]";
 	}
 }

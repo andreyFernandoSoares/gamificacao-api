@@ -1,5 +1,6 @@
 package br.com.jogo.api.services;
 
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +42,7 @@ public class SalaService {
 			Usuario usuario = geraUsuario(usuarioId);
 			List<Atividade> atividades = geraListaAtividades();
 			System.out.println(atividades.toString());
-			Sala sala = new Sala(codigo, usuario, atividades);
+			Sala sala = new Sala(codigo, usuario, atividades, LocalDateTime.now());
 			Sala salaCriada = salaRepository.save(sala);
 			return ResponseEntity.ok(salaCriada.getCodigo());
 		}

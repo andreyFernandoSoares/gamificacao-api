@@ -31,10 +31,9 @@ public class UsuarioService {
 	public Usuario cadastro(Usuario usuario){
 		configuraSenha(usuario);
 		new EmailService(usuario, new Mensagem(), javaMailSender).executa();
-		Usuario usuarioCriado = usuarioRepository.save(usuario);
-		BalancoPatrimonial balancoPatrimonial = new BalancoPatrimonial(usuarioCriado);
-		balancoRepository.save(balancoPatrimonial);
-		return usuarioCriado;
+		BalancoPatrimonial balanco = balancoRepository.save(new BalancoPatrimonial());
+		usuario.setBalacoPatrimonial(balanco);
+		return usuarioRepository.save(usuario);
 	}
 
 	private void configuraSenha(Usuario usuario) {

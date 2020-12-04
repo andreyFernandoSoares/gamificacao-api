@@ -17,7 +17,7 @@ import br.com.jogo.api.services.SalaService;
 public class SalaController {
 	
 	@Autowired
-	SalaService salaService;
+	private SalaService salaService;
 	
 	@PostMapping("/{usuarioId}")
 	@Transactional

@@ -11,4 +11,5 @@ public interface SalaRepository extends JpaRepository<Sala, Long> {
 	
 	Optional<Sala> findByUsuarioId(Long id);
 	
+	Optional<Sala> findByCodigo(String codigo);
 }
