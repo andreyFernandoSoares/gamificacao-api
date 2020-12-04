@@ -12,8 +12,8 @@ public class Atividade {
 	private Long id;
 	
 	private String descricao;
-	private String debito;
-	private String credito;
+	private String passivo;
+	private String ativo;
 	
 	public Long getId() {
 		return id;
@@ -27,20 +27,20 @@ public class Atividade {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	public String getDebito() {
-		return debito;
+	public String getPassivo() {
+		return passivo;
 	}
-	public void setDebito(String debito) {
-		this.debito = debito;
+	public void setPassivo(String passivo) {
+		this.passivo = passivo;
 	}
-	public String getCredito() {
-		return credito;
+	public String getAtivo() {
+		return ativo;
 	}
-	public void setCredito(String credito) {
-		this.credito = credito;
+	public void setAtivo(String ativo) {
+		this.ativo = ativo;
 	}
 	@Override
 	public String toString() {
-		return "Atividade [id=" + id + ", descricao=" + descricao + ", debito=" + debito + ", credito=" + credito + "]";
+		return "Atividade [id=" + id + ", descricao=" + descricao + ", passivo=" + passivo + ", ativo=" + ativo + "]";
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.jogo.api.builders.BalancoBuilder;
+import br.com.jogo.api.dtos.AtividadeDto;
 import br.com.jogo.api.models.BalancoPatrimonial;
 import br.com.jogo.api.models.Dre;
 import br.com.jogo.api.models.Jogador;
@@ -88,4 +89,114 @@ public class JogadorService {
 		return jogadorCriado;
 	}
 
+	public ResponseEntity<?> buscarBalanco(Long jogadorId) {
+		Optional<Jogador> jogador = jogadorRepository.findById(jogadorId);
+		
+		if (jogador.isPresent())
+			return ResponseEntity.ok(jogador.get().getBalanco());
+		
+		return ResponseEntity.notFound().build();
+	}
+
+	public ResponseEntity<?> alteraBalanco(Long jogadorId, AtividadeDto atividadeDto) {
+		Optional<Jogador> jogador = jogadorRepository.findById(jogadorId);
+		
+		if (jogador.isPresent()) {
+			BalancoPatrimonial balanco = jogador.get().getBalanco();
+			calculaAtivos(atividadeDto, balanco);
+			calculaPassivos(atividadeDto, balanco); 
+			balancoRepository.save(balanco);
+			return ResponseEntity.ok().build();
+		}
+		
+		return ResponseEntity.notFound().build();
+	}
+
+	private void calculaAtivos(AtividadeDto atividadeDto, BalancoPatrimonial balanco) {
+		Float valorAtual;
+		switch(atividadeDto.getAtivo()) {
+			case "CAIXA":
+				valorAtual = balanco.getCaixa();
+				balanco.setCaixa(valorAtual + atividadeDto.getValor());
+				break;
+			case "CONTASRECEBER":
+				valorAtual = balanco.getContasAReceber();
+				balanco.setContasAReceber(valorAtual + atividadeDto.getValor()); 
+				break;
+			case "ESTOQUE":
+				valorAtual = balanco.getEstoque();
+				balanco.setEstoque(valorAtual + atividadeDto.getValor()); 
+				break;
+			case "EQUIPAMENTOS":
+				valorAtual = balanco.getEquipamentos();
+				balanco.setEquipamentos(valorAtual + atividadeDto.getValor());
+				break;
+			case "MOVEISUTENSILIOS":
+				valorAtual = balanco.getMoveisUtensilios();
+				balanco.setMoveisUtensilios(valorAtual + atividadeDto.getValor());
+				break;
+			case "VEICULOS":
+				valorAtual = balanco.getVeiculo();
+				balanco.setVeiculo(valorAtual + atividadeDto.getValor());
+				break;
+		}
+		
+		balanco.setAtivoCirculante(
+			balanco.getCaixa() + balanco.getContasAReceber() + balanco.getEstoque()
+		);
+		
+		balanco.setAtivoNaoCirculante(
+			balanco.getEquipamentos() + balanco.getMoveisUtensilios() + balanco.getVeiculo()
+		);
+		
+		balanco.setImobilizados(balanco.getAtivoNaoCirculante());
+		
+		balanco.setAtivo(
+			balanco.getAtivoCirculante() + balanco.getAtivoNaoCirculante()
+		);
+	}
+
+	private void calculaPassivos(AtividadeDto atividadeDto, BalancoPatrimonial balanco) {
+		Float valorAtual;
+		
+		switch(atividadeDto.getPassivo()) {
+			case "FORNECEDORES":
+				valorAtual = balanco.getFornecedores();
+				balanco.setFornecedores(valorAtual + atividadeDto.getValor());
+				break;
+			case "SALARIOS":
+				valorAtual = balanco.getSalarios();
+				balanco.setSalarios(valorAtual + atividadeDto.getValor());
+				break;
+			case "IMPOSTOS":
+				valorAtual = balanco.getImpostos();
+				balanco.setImpostos(valorAtual + atividadeDto.getValor());
+				break;
+			case "ALUGUEL":
+				valorAtual = balanco.getAluguel();
+				balanco.setAluguel(valorAtual + atividadeDto.getValor());
+				break;
+			case "FINANCIAMENTOS":
+				valorAtual = balanco.getFinanciamentos();
+				balanco.setFinanciamentos(valorAtual + atividadeDto.getValor());
+				break;
+			case "EMPRESTIMOS":
+				valorAtual = balanco.getEmprestimos();
+				balanco.setEmprestimos(valorAtual + atividadeDto.getValor());
+				break;
+		}
+		
+		balanco.setPassivoCirculante(
+			balanco.getFornecedores() + balanco.getSalarios() +
+			balanco.getImpostos() + balanco.getAluguel()
+		);
+		
+		balanco.setPassivoNaoCirculante(
+		    balanco.getFinanciamentos() + balanco.getEmprestimos()
+		);
+		
+		balanco.setPassivo(
+			balanco.getPassivoCirculante() + balanco.getPassivoNaoCirculante()	
+		);
+	}
 }
