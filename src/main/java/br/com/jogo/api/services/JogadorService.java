@@ -83,7 +83,7 @@ public class JogadorService {
 	}
 
 	private Jogador criaJogador(Jogador jogador) {
-		Dre dre = dreRepository.save(new Dre());
+		Dre dre = dreRepository.save(new Dre(0));
 		jogador.setDre(dre);
 		Jogador jogadorCriado = jogadorRepository.save(jogador);
 		return jogadorCriado;
