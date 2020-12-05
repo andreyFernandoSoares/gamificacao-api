@@ -25,8 +25,13 @@ public class SalaController {
 		return salaService.gravar(usuarioId);
 	}
 	
-	@GetMapping("/{usuarioId}")
+	@GetMapping("/codigo/{usuarioId}")
 	public ResponseEntity<?> buscarPorUsuarioId(@PathVariable Long usuarioId) {
 		return salaService.buscarPorUsuarioId(usuarioId);
+	}
+	
+	@GetMapping("/{codigo}")
+	public ResponseEntity<?> buscaAtividadesSala(@PathVariable String codigo) {
+		return salaService.buscarListaAtividades(codigo);
 	}
 }

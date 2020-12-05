@@ -41,10 +41,14 @@ public class SalaService {
 			String codigo = geraCodigo();
 			Usuario usuario = geraUsuario(usuarioId);
 			List<Atividade> atividades = geraListaAtividades();
-			System.out.println(atividades.toString());
-			Sala sala = new Sala(codigo, usuario, atividades, LocalDateTime.now());
-			Sala salaCriada = salaRepository.save(sala);
-			return ResponseEntity.ok(salaCriada.getCodigo());
+			
+			if (atividades.size() == 10) {
+				Sala sala = new Sala(codigo, usuario, atividades, LocalDateTime.now());
+				Sala salaCriada = salaRepository.save(sala);
+				return ResponseEntity.ok(salaCriada.getCodigo());
+			} else {
+				return ResponseEntity.notFound().build();
+			}
 		}
 		
 		return ResponseEntity.notFound().build();
@@ -86,6 +90,15 @@ public class SalaService {
 		
 		if (sala.isPresent()) 
 			return ResponseEntity.ok(sala.get().getCodigo());
+		
+		return ResponseEntity.notFound().build();
+	}
+
+	public ResponseEntity<?> buscarListaAtividades(String codigo) {
+		Optional<Sala> sala = salaRepository.findByCodigo(codigo);
+		
+		if (sala.isPresent())
+			return ResponseEntity.ok(sala.get().getListaAtividades());
 		
 		return ResponseEntity.notFound().build();
 	}
