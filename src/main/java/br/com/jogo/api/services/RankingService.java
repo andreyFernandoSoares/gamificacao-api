@@ -16,8 +16,9 @@ public class RankingService {
 	RankingRepository rankingRepository;
 
 	public ResponseEntity<?> buscar() {
-		List<Ranking> ranking = rankingRepository.findTop10ByOrderByResultadoLiquidoExercicioDesc();
+		List<Ranking> ranking = rankingRepository.findAllByOrderByResultadoLiquidoExercicioDesc();
 		
+		System.out.println(ranking);
 		if (ranking != null) 
 			return ResponseEntity.ok(ranking);
 	

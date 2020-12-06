@@ -13,10 +13,12 @@ import br.com.jogo.api.dtos.AtividadeDto;
 import br.com.jogo.api.models.BalancoPatrimonial;
 import br.com.jogo.api.models.Dre;
 import br.com.jogo.api.models.Jogador;
+import br.com.jogo.api.models.Ranking;
 import br.com.jogo.api.models.Sala;
 import br.com.jogo.api.repositories.BalancoPatrimonialRepository;
 import br.com.jogo.api.repositories.DreRepository;
 import br.com.jogo.api.repositories.JogadorRepository;
+import br.com.jogo.api.repositories.RankingRepository;
 import br.com.jogo.api.repositories.SalaRepository;
 
 @Service
@@ -33,6 +35,9 @@ public class JogadorService {
 	
 	@Autowired
 	private BalancoPatrimonialRepository balancoRepository;
+	
+	@Autowired
+	private RankingRepository rankingRepository;
 
 	public ResponseEntity<?> gravar(Jogador jogador) {
 		
@@ -83,7 +88,7 @@ public class JogadorService {
 	}
 
 	private Jogador criaJogador(Jogador jogador) {
-		Dre dre = dreRepository.save(new Dre(0));
+		Dre dre = dreRepository.save(new Dre());
 		jogador.setDre(dre);
 		Jogador jogadorCriado = jogadorRepository.save(jogador);
 		return jogadorCriado;
@@ -198,5 +203,87 @@ public class JogadorService {
 		balanco.setPassivo(
 			balanco.getPassivoCirculante() + balanco.getPassivoNaoCirculante()	
 		);
+	}
+	
+	public ResponseEntity<?> removeJogador(Long jogadorId, String codigo) {
+		Optional<Jogador> jogador = jogadorRepository.findById(jogadorId);
+		
+		if (jogador.isPresent()) {
+			removeDaSala(jogador.get(), codigo);
+			jogadorRepository.delete(jogador.get());
+			return ResponseEntity.ok().build();
+		}
+		
+		return ResponseEntity.notFound().build();
+	}
+
+	private void removeDaSala(Jogador jogador, String codigo) {
+		Optional<Sala> sala = salaRepository.findByCodigo(codigo);
+		
+		if (sala.isPresent()) {
+			sala.get()
+				.getListaJogadores()
+				.remove(jogador);
+			
+			salaRepository.save(sala.get());
+		}
+	}
+
+	public ResponseEntity<?> finalizar(Long jogadorId, String codigo) {
+		Optional<Jogador> jogadorOpt = jogadorRepository.findById(jogadorId);
+		
+		if (jogadorOpt.isPresent()) {
+			Jogador jogador = jogadorOpt.get();
+			montaDre(jogador);
+			Jogador jogadorSalvo = jogadorRepository.save(jogador);
+			Optional<Sala> sala = salaRepository.findByCodigo(codigo);
+			
+			if (sala.isPresent()) {
+				Ranking ranking = new Ranking(jogadorSalvo, jogadorSalvo.getDre().getResultadoLiquidoExercicio(), sala.get());
+				rankingRepository.save(ranking);
+				return ResponseEntity.ok().build();		
+			}
+		}
+		
+		return ResponseEntity.notFound().build();	
+	}
+
+	private void montaDre(Jogador jogador) {
+		BalancoPatrimonial balanco = jogador.getBalanco();
+		
+		Dre dre = jogador.getDre();
+		
+		dre.setReceitaBruta(
+			balanco.getCaixa() + balanco.getCapitalSocial()
+			+ balanco.getContasAReceber() + balanco.getEstoque()
+			+ balanco.getEquipamentos() + balanco.getMoveisUtensilios()
+			+ balanco.getVeiculo()
+		);
+		
+		dre.setDevolucoes(
+			balanco.getFinanciamentos() + balanco.getEmprestimos()
+		);
+		
+		dre.setImpostosContribuicoes(balanco.getImpostos());
+		
+		dre.setDespesasComVendas(balanco.getFornecedores());
+		
+		dre.setDespesasAdministrativas(
+			balanco.getAluguel() + balanco.getSalarios()
+		);
+		
+		dre.setDeducoesReceitaBruta(dre.getDevolucoes() + dre.getImpostosContribuicoes());
+		
+		dre.setReceitaOperacionalLiquida(dre.getReceitaBruta() - dre.getDeducoesReceitaBruta());
+		
+		dre.setDispensasOperacionais(dre.getDespesasComVendas() + dre.getDespesasAdministrativas());
+		
+		dre.setResultadoAntesDoImposto(dre.getReceitaBruta() 
+			- dre.getDeducoesReceitaBruta() - dre.getDispensasOperacionais()
+		);
+		
+		Float valorImposto = (float) (dre.getResultadoAntesDoImposto() * 0.14);
+		
+		dre.setResultadoLiquidoExercicio(dre.getResultadoAntesDoImposto() - valorImposto);
 	}
 }

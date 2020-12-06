@@ -22,13 +22,8 @@ public class Dre {
 	private Float resultadoAntesDoImposto;
 	private Float impostoRenda;
 	private Float resultadoLiquidoExercicio;
-	private Integer finalizada;
 	
 	public Dre() {}
-	
-	public Dre(Integer finalizada) {
-		this.finalizada = finalizada;
-	}
 	
 	public Long getId() {
 		return id;
@@ -108,12 +103,6 @@ public class Dre {
 	public void setResultadoLiquidoExercicio(Float resultadoLiquidoExercicio) {
 		this.resultadoLiquidoExercicio = resultadoLiquidoExercicio;
 	}
-	public Integer getFinalizada() {
-		return finalizada;
-	}
-	public void setFinalizada(Integer finalizada) {
-		this.finalizada = finalizada;
-	}
 	@Override
 	public String toString() {
 		return "Dre [id=" + id + ", receitaBruta=" + receitaBruta + ", vendaMercadorias=" + vendaMercadorias
@@ -122,6 +111,6 @@ public class Dre {
 				+ receitaOperacionalLiquida + ", dispensasOperacionais=" + dispensasOperacionais
 				+ ", despesasComVendas=" + despesasComVendas + ", despesasAdministrativas=" + despesasAdministrativas
 				+ ", resultadoAntesDoImposto=" + resultadoAntesDoImposto + ", impostoRenda=" + impostoRenda
-				+ ", resultadoLiquidoExercicio=" + resultadoLiquidoExercicio + ", finalizada=" + finalizada + "]";
+				+ ", resultadoLiquidoExercicio=" + resultadoLiquidoExercicio + "]";
 	}
 }

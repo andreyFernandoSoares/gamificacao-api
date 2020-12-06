@@ -6,9 +6,7 @@ public class Mensagem {
 	String corpo;
 	String topico;
 	
-	public Mensagem(){
-		
-	}
+	public Mensagem(){}
 	
 	public String getDestinatario() {
 		return destinatario;

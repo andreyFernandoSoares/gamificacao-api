@@ -4,6 +4,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,7 +36,19 @@ public class JogadorController {
 	}
 	
 	@PutMapping("/{jogadorId}")
+	@Transactional
 	public ResponseEntity<?> alteraBalanco(@PathVariable Long jogadorId, @RequestBody AtividadeDto atividadeDto) {
 		return jogadorService.alteraBalanco(jogadorId, atividadeDto);
+	}
+	
+	@DeleteMapping("/{jogadorId}/{codigo}")
+	@Transactional
+	public ResponseEntity<?> removeJogador(@PathVariable Long jogadorId, @PathVariable String codigo) {
+		return jogadorService.removeJogador(jogadorId, codigo);
+	}
+	
+	@PostMapping("/finaliza/{jogadorId}/{codigo}")
+	public ResponseEntity<?> finalizar(@PathVariable Long jogadorId, @PathVariable String codigo) {
+		return jogadorService.finalizar(jogadorId, codigo);
 	}
 }

@@ -20,8 +20,9 @@ public class Ranking {
 	
 	private Float resultadoLiquidoExercicio;
 	
-	public Ranking(Long id, Jogador jogador, Float resultadoLiquidoExercicio, Sala sala) {
-		this.id = id;
+	public Ranking () {}
+	
+	public Ranking(Jogador jogador, Float resultadoLiquidoExercicio, Sala sala) {
 		this.jogador = jogador;
 		this.resultadoLiquidoExercicio = resultadoLiquidoExercicio;
 		this.sala = sala;

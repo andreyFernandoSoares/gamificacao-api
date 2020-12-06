@@ -30,6 +30,7 @@ public class SalaService {
 	SalaRepository salaRepository;
 
 	public ResponseEntity<?> gravar(Long usuarioId) {
+		
 		Optional<Sala> usuarioSala = salaRepository.findByUsuarioId(usuarioId);
 		
 		Integer ativa = 0;
