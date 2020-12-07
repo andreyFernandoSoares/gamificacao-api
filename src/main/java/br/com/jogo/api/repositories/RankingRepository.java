@@ -10,5 +10,5 @@ import br.com.jogo.api.models.Ranking;
 @Repository
 public interface RankingRepository extends JpaRepository<Ranking, Long> {
 	
-	public List<Ranking> findAllByOrderByDiferencaAsc();
+	public List<Ranking> findAllByOrderByPontosDesc();
 }

@@ -18,6 +18,7 @@ public class Jogador {
 	
 	private String codigo;
 	private String nome;
+	private Integer pontos;
 
 	public Long getId() {
 		return id;
@@ -50,9 +51,17 @@ public class Jogador {
 		this.codigo = codigo;
 	}
 
+	public Integer getPontos() {
+		return pontos;
+	}
+
+	public void setPontos(Integer pontos) {
+		this.pontos = pontos;
+	}
+
 	@Override
 	public String toString() {
-		return "Jogador [id=" + id + ", balanco=" + balanco + ", codigo=" + codigo + ", nome=" + nome
-				+ "]";
+		return "Jogador [id=" + id + ", balanco=" + balanco + ", codigo=" + codigo + ", nome=" + nome + ", pontos="
+				+ pontos + "]";
 	}
 }

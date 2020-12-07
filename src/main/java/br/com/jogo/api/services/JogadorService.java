@@ -43,6 +43,7 @@ public class JogadorService {
 				Sala salaJogador = sala.get();
 
 				if (salaJogador.getAtiva() > 0) {
+					jogador.setPontos(0);
 					Jogador jogadorCriado = criaJogador(jogador);
 					montaBalancoPatrimonial(salaJogador, jogadorCriado);
 					adicionaJogadorASala(salaJogador, jogadorCriado);
@@ -97,13 +98,16 @@ public class JogadorService {
 	}
 
 	public ResponseEntity<?> alteraBalanco(Long jogadorId, AtividadeDto atividadeDto) {
-		Optional<Jogador> jogador = jogadorRepository.findById(jogadorId);
+		Optional<Jogador> jogadorOpt = jogadorRepository.findById(jogadorId);
 		
-		if (jogador.isPresent()) {
-			BalancoPatrimonial balanco = jogador.get().getBalanco();
+		if (jogadorOpt.isPresent()) {
+			BalancoPatrimonial balanco = jogadorOpt.get().getBalanco();
 			calculaAtivos(atividadeDto, balanco);
 			calculaPassivos(atividadeDto, balanco); 
 			balancoRepository.save(balanco);
+			Jogador jogador = jogadorOpt.get();
+			jogador.setPontos(atividadeDto.getPontos() + jogador.getPontos());
+			jogadorRepository.save(jogador);
 			return ResponseEntity.ok().build();
 		}
 		
@@ -173,14 +177,14 @@ public class JogadorService {
 				if (atividadeDto.getValorAPrazo() > 0) 
 					balanco.setContasAPagar(valorAtual + atividadeDto.getValorAPrazo());
 				else
-					balanco.setFinanciamentos(valorAtual + atividadeDto.getValor());
+					balanco.setContasAPagar(valorAtual + atividadeDto.getValor());
 				break;
 			case "ALUGUEL":
 				valorAtual = balanco.getAluguel();
 				if (atividadeDto.getValorAPrazo() > 0) 
 					balanco.setAluguel(valorAtual + atividadeDto.getValorAPrazo());
 				else
-					balanco.setFinanciamentos(valorAtual + atividadeDto.getValor());
+					balanco.setAluguel(valorAtual + atividadeDto.getValor());
 				break;
 			case "FINANCIAMENTOS":
 				valorAtual = balanco.getFinanciamentos();
@@ -243,9 +247,8 @@ public class JogadorService {
 		if (jogadorOpt.isPresent()) {
 			Jogador jogador = jogadorOpt.get();
 			Optional<Sala> sala = salaRepository.findByCodigo(codigo);
-			Float diferenca = jogador.getBalanco().getTotalAtivos() - jogador.getBalanco().getTotalPassivos();
 			if (sala.isPresent()) {
-				Ranking ranking = new Ranking(jogador, sala.get(), diferenca);
+				Ranking ranking = new Ranking(jogador, sala.get(), jogador.getPontos());
 				rankingRepository.save(ranking);
 				return ResponseEntity.ok().build();		
 			}

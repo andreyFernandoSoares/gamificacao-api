@@ -15,17 +15,17 @@ public class Ranking {
 	@OneToOne
 	private Jogador jogador;
 	
-	private Float diferenca;
+	private Integer pontos;
 	
 	@OneToOne
 	private Sala sala;
 	
 	public Ranking () {}
 	
-	public Ranking(Jogador jogador, Sala sala, Float diferenca) {
+	public Ranking(Jogador jogador, Sala sala, Integer pontos) {
 		this.jogador = jogador;
 		this.sala = sala;
-		this.diferenca = diferenca;
+		this.pontos = pontos;
 	}
 
 	public Long getId() {
@@ -52,16 +52,16 @@ public class Ranking {
 		this.sala = sala;
 	}
 
-	public Float getDiferenca() {
-		return diferenca;
+	public Integer getPontos() {
+		return pontos;
 	}
 
-	public void setDiferenca(Float diferenca) {
-		this.diferenca = diferenca;
+	public void setPontos(Integer pontos) {
+		this.pontos = pontos;
 	}
 
 	@Override
 	public String toString() {
-		return "Ranking [id=" + id + ", jogador=" + jogador + ", diferenca=" + diferenca + ", sala=" + sala + "]";
+		return "Ranking [id=" + id + ", jogador=" + jogador + ", pontos=" + pontos + ", sala=" + sala + "]";
 	}
 }

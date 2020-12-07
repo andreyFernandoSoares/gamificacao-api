@@ -6,6 +6,7 @@ public class AtividadeDto {
 	private String passivo;
 	private Float valor;
 	private Float valorAPrazo;
+	private Integer pontos;
 	
 	public AtividadeDto() {}
 	
@@ -39,5 +40,13 @@ public class AtividadeDto {
 	public String toString() {
 		return "AtividadeDto [ativo=" + ativo + ", passivo=" + passivo + ", valor=" + valor + ", valorAPrazo="
 				+ valorAPrazo + "]";
+	}
+
+	public Integer getPontos() {
+		return pontos;
+	}
+
+	public void setPontos(Integer pontos) {
+		this.pontos = pontos;
 	}
 }

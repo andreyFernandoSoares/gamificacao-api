@@ -6,14 +6,14 @@ public class RankingDto {
 	
 	private Long id;
 	private Jogador jogador;
-	private Float diferenca;
+	private Integer pontos;
 	
 	public RankingDto() {}
 	
-	public RankingDto(Long id, Jogador jogador, Float diferenca) {
+	public RankingDto(Long id, Jogador jogador, Integer pontos) {
 		this.id = id;
 		this.jogador = jogador;
-		this.setDiferenca(diferenca);
+		this.pontos = pontos;
 	}
 
 	public Long getId() {
@@ -32,11 +32,11 @@ public class RankingDto {
 		this.jogador = jogador;
 	}
 
-	public Float getDiferenca() {
-		return diferenca;
+	public Integer getPontos() {
+		return pontos;
 	}
 
-	public void setDiferenca(Float diferenca) {
-		this.diferenca = diferenca;
+	public void setPontos(Integer pontos) {
+		this.pontos = pontos;
 	}
 }

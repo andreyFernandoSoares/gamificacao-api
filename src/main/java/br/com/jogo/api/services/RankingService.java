@@ -18,13 +18,13 @@ public class RankingService {
 	RankingRepository rankingRepository;
 
 	public ResponseEntity<?> buscar() {
-		List<Ranking> ranking = rankingRepository.findAllByOrderByDiferencaAsc();
+		List<Ranking> ranking = rankingRepository.findAllByOrderByPontosDesc();
 		
 		if (ranking != null) {
 			List<RankingDto> listaRankingDto = new LinkedList<>();
 			
 			for (Ranking rank : ranking) {
-				RankingDto rankingDto = new RankingDto(rank.getId(), rank.getJogador(), rank.getDiferenca());
+				RankingDto rankingDto = new RankingDto(rank.getId(), rank.getJogador(), rank.getPontos());
 				listaRankingDto.add(rankingDto);
 			}
 			
