@@ -16,9 +16,6 @@ public class Jogador {
 	@OneToOne(cascade = CascadeType.ALL)
 	private BalancoPatrimonial balanco;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	private Dre dre;
-	
 	private String codigo;
 	private String nome;
 
@@ -45,15 +42,6 @@ public class Jogador {
 	public void setBalanco(BalancoPatrimonial balanco) {
 		this.balanco = balanco;
 	}
-
-	public Dre getDre() {
-		return dre;
-	}
-
-	public void setDre(Dre dre) {
-		this.dre = dre;
-	}
-	
 	public String getCodigo() {
 		return codigo;
 	}
@@ -64,7 +52,7 @@ public class Jogador {
 
 	@Override
 	public String toString() {
-		return "Jogador [id=" + id + ", balanco=" + balanco + ", dre=" + dre + ", codigo=" + codigo + ", nome=" + nome
+		return "Jogador [id=" + id + ", balanco=" + balanco + ", codigo=" + codigo + ", nome=" + nome
 				+ "]";
 	}
 }

@@ -14,6 +14,8 @@ public class Atividade {
 	private String descricao;
 	private String passivo;
 	private String ativo;
+	private Float valor;
+	private Float valorAPrazo;
 	
 	public Long getId() {
 		return id;
@@ -39,8 +41,21 @@ public class Atividade {
 	public void setAtivo(String ativo) {
 		this.ativo = ativo;
 	}
+	public Float getValor() {
+		return valor;
+	}
+	public void setValor(Float valor) {
+		this.valor = valor;
+	}
+	public Float getValorAPrazo() {
+		return valorAPrazo;
+	}
+	public void setValorAPrazo(Float valorAPrazo) {
+		this.valorAPrazo = valorAPrazo;
+	}
 	@Override
 	public String toString() {
-		return "Atividade [id=" + id + ", descricao=" + descricao + ", passivo=" + passivo + ", ativo=" + ativo + "]";
+		return "Atividade [id=" + id + ", descricao=" + descricao + ", passivo=" + passivo + ", ativo=" + ativo
+				+ ", valor=" + valor + ", valorAPrazo=" + valorAPrazo + "]";
 	}
 }

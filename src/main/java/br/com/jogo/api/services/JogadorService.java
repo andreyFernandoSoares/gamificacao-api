@@ -11,12 +11,10 @@ import org.springframework.stereotype.Service;
 import br.com.jogo.api.builders.BalancoBuilder;
 import br.com.jogo.api.dtos.AtividadeDto;
 import br.com.jogo.api.models.BalancoPatrimonial;
-import br.com.jogo.api.models.Dre;
 import br.com.jogo.api.models.Jogador;
 import br.com.jogo.api.models.Ranking;
 import br.com.jogo.api.models.Sala;
 import br.com.jogo.api.repositories.BalancoPatrimonialRepository;
-import br.com.jogo.api.repositories.DreRepository;
 import br.com.jogo.api.repositories.JogadorRepository;
 import br.com.jogo.api.repositories.RankingRepository;
 import br.com.jogo.api.repositories.SalaRepository;
@@ -29,9 +27,6 @@ public class JogadorService {
 	
 	@Autowired
 	private SalaRepository salaRepository;
-	
-	@Autowired
-	private DreRepository dreRepository;
 	
 	@Autowired
 	private BalancoPatrimonialRepository balancoRepository;
@@ -88,8 +83,6 @@ public class JogadorService {
 	}
 
 	private Jogador criaJogador(Jogador jogador) {
-		Dre dre = dreRepository.save(new Dre());
-		jogador.setDre(dre);
 		Jogador jogadorCriado = jogadorRepository.save(jogador);
 		return jogadorCriado;
 	}
@@ -116,33 +109,34 @@ public class JogadorService {
 		
 		return ResponseEntity.notFound().build();
 	}
+	
 
 	private void calculaAtivos(AtividadeDto atividadeDto, BalancoPatrimonial balanco) {
 		Float valorAtual;
+		valorAtual = balanco.getCaixa();
+		if (atividadeDto.getValorAPrazo() > 0)
+			balanco.setCaixa(valorAtual - atividadeDto.getValor());
+		
 		switch(atividadeDto.getAtivo()) {
-			case "CAIXA":
-				valorAtual = balanco.getCaixa();
-				balanco.setCaixa(valorAtual + atividadeDto.getValor());
-				break;
 			case "CONTASRECEBER":
 				valorAtual = balanco.getContasAReceber();
-				balanco.setContasAReceber(valorAtual + atividadeDto.getValor()); 
+				balanco.setContasAReceber(valorAtual + atividadeDto.getValor() + atividadeDto.getValorAPrazo()); 
 				break;
 			case "ESTOQUE":
 				valorAtual = balanco.getEstoque();
-				balanco.setEstoque(valorAtual + atividadeDto.getValor()); 
+				balanco.setEstoque(valorAtual + atividadeDto.getValor() + atividadeDto.getValorAPrazo()); 
 				break;
 			case "EQUIPAMENTOS":
 				valorAtual = balanco.getEquipamentos();
-				balanco.setEquipamentos(valorAtual + atividadeDto.getValor());
+				balanco.setEquipamentos(valorAtual + atividadeDto.getValor() + atividadeDto.getValorAPrazo());
 				break;
 			case "MOVEISUTENSILIOS":
 				valorAtual = balanco.getMoveisUtensilios();
-				balanco.setMoveisUtensilios(valorAtual + atividadeDto.getValor());
+				balanco.setMoveisUtensilios(valorAtual + atividadeDto.getValor() + atividadeDto.getValorAPrazo());
 				break;
 			case "VEICULOS":
 				valorAtual = balanco.getVeiculo();
-				balanco.setVeiculo(valorAtual + atividadeDto.getValor());
+				balanco.setVeiculo(valorAtual + atividadeDto.getValor() + atividadeDto.getValorAPrazo());
 				break;
 		}
 		
@@ -159,6 +153,8 @@ public class JogadorService {
 		balanco.setAtivo(
 			balanco.getAtivoCirculante() + balanco.getAtivoNaoCirculante()
 		);
+		
+		balanco.setTotalAtivos(balanco.getAtivo());
 	}
 
 	private void calculaPassivos(AtividadeDto atividadeDto, BalancoPatrimonial balanco) {
@@ -167,33 +163,43 @@ public class JogadorService {
 		switch(atividadeDto.getPassivo()) {
 			case "FORNECEDORES":
 				valorAtual = balanco.getFornecedores();
-				balanco.setFornecedores(valorAtual + atividadeDto.getValor());
+				if (atividadeDto.getValorAPrazo() > 0) 
+					balanco.setFornecedores(valorAtual + atividadeDto.getValorAPrazo());
+				else
+					balanco.setFornecedores(valorAtual + atividadeDto.getValor());
 				break;
-			case "SALARIOS":
-				valorAtual = balanco.getSalarios();
-				balanco.setSalarios(valorAtual + atividadeDto.getValor());
-				break;
-			case "IMPOSTOS":
-				valorAtual = balanco.getImpostos();
-				balanco.setImpostos(valorAtual + atividadeDto.getValor());
+			case "CONTASAPAGAR":
+				valorAtual = balanco.getContasAPagar();
+				if (atividadeDto.getValorAPrazo() > 0) 
+					balanco.setContasAPagar(valorAtual + atividadeDto.getValorAPrazo());
+				else
+					balanco.setFinanciamentos(valorAtual + atividadeDto.getValor());
 				break;
 			case "ALUGUEL":
 				valorAtual = balanco.getAluguel();
-				balanco.setAluguel(valorAtual + atividadeDto.getValor());
+				if (atividadeDto.getValorAPrazo() > 0) 
+					balanco.setAluguel(valorAtual + atividadeDto.getValorAPrazo());
+				else
+					balanco.setFinanciamentos(valorAtual + atividadeDto.getValor());
 				break;
 			case "FINANCIAMENTOS":
 				valorAtual = balanco.getFinanciamentos();
-				balanco.setFinanciamentos(valorAtual + atividadeDto.getValor());
+				if (atividadeDto.getValorAPrazo() > 0) 
+					balanco.setFinanciamentos(valorAtual + atividadeDto.getValorAPrazo());
+				else
+					balanco.setFinanciamentos(valorAtual + atividadeDto.getValor());
 				break;
 			case "EMPRESTIMOS":
 				valorAtual = balanco.getEmprestimos();
-				balanco.setEmprestimos(valorAtual + atividadeDto.getValor());
+				if (atividadeDto.getValorAPrazo() > 0) 
+					balanco.setEmprestimos(valorAtual + atividadeDto.getValorAPrazo());
+				else
+					balanco.setEmprestimos(valorAtual + atividadeDto.getValor());
 				break;
 		}
 		
 		balanco.setPassivoCirculante(
-			balanco.getFornecedores() + balanco.getSalarios() +
-			balanco.getImpostos() + balanco.getAluguel()
+			balanco.getFornecedores() + balanco.getContasAPagar() + balanco.getAluguel()
 		);
 		
 		balanco.setPassivoNaoCirculante(
@@ -203,6 +209,8 @@ public class JogadorService {
 		balanco.setPassivo(
 			balanco.getPassivoCirculante() + balanco.getPassivoNaoCirculante()	
 		);
+		
+		balanco.setTotalPassivos(balanco.getPassivo() + balanco.getCapitalSocial());
 	}
 	
 	public ResponseEntity<?> removeJogador(Long jogadorId, String codigo) {
@@ -234,56 +242,15 @@ public class JogadorService {
 		
 		if (jogadorOpt.isPresent()) {
 			Jogador jogador = jogadorOpt.get();
-			montaDre(jogador);
-			Jogador jogadorSalvo = jogadorRepository.save(jogador);
 			Optional<Sala> sala = salaRepository.findByCodigo(codigo);
-			
+			Float diferenca = jogador.getBalanco().getTotalAtivos() - jogador.getBalanco().getTotalPassivos();
 			if (sala.isPresent()) {
-				Ranking ranking = new Ranking(jogadorSalvo, jogadorSalvo.getDre().getResultadoLiquidoExercicio(), sala.get());
+				Ranking ranking = new Ranking(jogador, sala.get(), diferenca);
 				rankingRepository.save(ranking);
 				return ResponseEntity.ok().build();		
 			}
 		}
 		
 		return ResponseEntity.notFound().build();	
-	}
-
-	private void montaDre(Jogador jogador) {
-		BalancoPatrimonial balanco = jogador.getBalanco();
-		
-		Dre dre = jogador.getDre();
-		
-		dre.setReceitaBruta(
-			balanco.getCaixa() + balanco.getCapitalSocial()
-			+ balanco.getContasAReceber() + balanco.getEstoque()
-			+ balanco.getEquipamentos() + balanco.getMoveisUtensilios()
-			+ balanco.getVeiculo()
-		);
-		
-		dre.setDevolucoes(
-			balanco.getFinanciamentos() + balanco.getEmprestimos()
-		);
-		
-		dre.setImpostosContribuicoes(balanco.getImpostos());
-		
-		dre.setDespesasComVendas(balanco.getFornecedores());
-		
-		dre.setDespesasAdministrativas(
-			balanco.getAluguel() + balanco.getSalarios()
-		);
-		
-		dre.setDeducoesReceitaBruta(dre.getDevolucoes() + dre.getImpostosContribuicoes());
-		
-		dre.setReceitaOperacionalLiquida(dre.getReceitaBruta() - dre.getDeducoesReceitaBruta());
-		
-		dre.setDispensasOperacionais(dre.getDespesasComVendas() + dre.getDespesasAdministrativas());
-		
-		dre.setResultadoAntesDoImposto(dre.getReceitaBruta() 
-			- dre.getDeducoesReceitaBruta() - dre.getDispensasOperacionais()
-		);
-		
-		Float valorImposto = (float) (dre.getResultadoAntesDoImposto() * 0.14);
-		
-		dre.setResultadoLiquidoExercicio(dre.getResultadoAntesDoImposto() - valorImposto);
 	}
 }

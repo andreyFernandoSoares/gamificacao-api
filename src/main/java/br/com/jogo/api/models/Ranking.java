@@ -15,17 +15,17 @@ public class Ranking {
 	@OneToOne
 	private Jogador jogador;
 	
+	private Float diferenca;
+	
 	@OneToOne
 	private Sala sala;
 	
-	private Float resultadoLiquidoExercicio;
-	
 	public Ranking () {}
 	
-	public Ranking(Jogador jogador, Float resultadoLiquidoExercicio, Sala sala) {
+	public Ranking(Jogador jogador, Sala sala, Float diferenca) {
 		this.jogador = jogador;
-		this.resultadoLiquidoExercicio = resultadoLiquidoExercicio;
 		this.sala = sala;
+		this.diferenca = diferenca;
 	}
 
 	public Long getId() {
@@ -34,14 +34,6 @@ public class Ranking {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Float getResultadoLiquidoExercicio() {
-		return resultadoLiquidoExercicio;
-	}
-
-	public void setResultadoLiquidoExercicio(Float resultadoLiquidoExercicio) {
-		this.resultadoLiquidoExercicio = resultadoLiquidoExercicio;
 	}
 
 	public Jogador getJogador() {
@@ -60,9 +52,16 @@ public class Ranking {
 		this.sala = sala;
 	}
 
+	public Float getDiferenca() {
+		return diferenca;
+	}
+
+	public void setDiferenca(Float diferenca) {
+		this.diferenca = diferenca;
+	}
+
 	@Override
 	public String toString() {
-		return "Ranking [id=" + id + ", jogador=" + jogador + ", sala=" + sala + ", resultadoLiquidoExercicio="
-				+ resultadoLiquidoExercicio + "]";
+		return "Ranking [id=" + id + ", jogador=" + jogador + ", diferenca=" + diferenca + ", sala=" + sala + "]";
 	}
 }

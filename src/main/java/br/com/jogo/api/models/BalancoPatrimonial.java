@@ -22,10 +22,9 @@ public class BalancoPatrimonial {
 	private Float fornecedores;
 	
 	private Float contasAReceber;
-	private Float salarios;
+	private Float contasAPagar;
 	
 	private Float estoque;
-	private Float impostos;
 	
 	private Float ativoNaoCirculante;
 	private Float aluguel;
@@ -43,6 +42,10 @@ public class BalancoPatrimonial {
 	private Float patrimonioLiquido;
 	
 	private Float capitalSocial;
+	
+	private Float totalAtivos;
+	
+	private Float totalPassivos;
 	
 	public BalancoPatrimonial() {
 
@@ -115,29 +118,12 @@ public class BalancoPatrimonial {
 	public void setContasAReceber(Float contasAReceber) {
 		this.contasAReceber = contasAReceber;
 	}
-
-	public Float getSalarios() {
-		return salarios;
-	}
-
-	public void setSalarios(Float salarios) {
-		this.salarios = salarios;
-	}
-
 	public Float getEstoque() {
 		return estoque;
 	}
 
 	public void setEstoque(Float estoque) {
 		this.estoque = estoque;
-	}
-
-	public Float getImpostos() {
-		return impostos;
-	}
-
-	public void setImpostos(Float impostos) {
-		this.impostos = impostos;
 	}
 
 	public Float getAtivoNaoCirculante() {
@@ -226,5 +212,41 @@ public class BalancoPatrimonial {
 
 	public void setCapitalSocial(Float capitalSocial) {
 		this.capitalSocial = capitalSocial;
+	}
+
+	public Float getTotalAtivos() {
+		return totalAtivos;
+	}
+
+	public void setTotalAtivos(Float totalAtivos) {
+		this.totalAtivos = totalAtivos;
+	}
+
+	public Float getTotalPassivos() {
+		return totalPassivos;
+	}
+
+	public void setTotalPassivos(Float totalPassivos) {
+		this.totalPassivos = totalPassivos;
+	}
+	
+	public Float getContasAPagar() {
+		return contasAPagar;
+	}
+
+	public void setContasAPagar(Float contasAPagar) {
+		this.contasAPagar = contasAPagar;
+	}
+
+	@Override
+	public String toString() {
+		return "BalancoPatrimonial [id=" + id + ", ativo=" + ativo + ", passivo=" + passivo + ", ativoCirculante="
+				+ ativoCirculante + ", passivoCirculante=" + passivoCirculante + ", caixa=" + caixa + ", fornecedores="
+				+ fornecedores + ", contasAReceber=" + contasAReceber + ", contasAPagar=" + getContasAPagar() + ", estoque="
+				+ estoque + ", ativoNaoCirculante=" + ativoNaoCirculante + ", aluguel=" + aluguel + ", imobilizados="
+				+ imobilizados + ", passivoNaoCirculante=" + passivoNaoCirculante + ", equipamentos=" + equipamentos
+				+ ", financiamentos=" + financiamentos + ", moveisUtensilios=" + moveisUtensilios + ", emprestimos="
+				+ emprestimos + ", veiculo=" + veiculo + ", patrimonioLiquido=" + patrimonioLiquido + ", capitalSocial="
+				+ capitalSocial + ", totalAtivos=" + totalAtivos + ", totalPassivos=" + totalPassivos + "]";
 	}
 }

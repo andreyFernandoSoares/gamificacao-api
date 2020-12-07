@@ -14,9 +14,8 @@ public class BalancoBuilder {
 		novoBalanco.setCaixa(balanco.getCaixa());
 		novoBalanco.setFornecedores(balanco.getFornecedores());
 		novoBalanco.setContasAReceber(balanco.getContasAReceber());
-		novoBalanco.setSalarios(balanco.getSalarios());
+		novoBalanco.setContasAPagar(balanco.getContasAPagar());
 		novoBalanco.setEstoque(balanco.getEstoque());
-		novoBalanco.setImpostos(balanco.getImpostos());
 		novoBalanco.setAtivoNaoCirculante(balanco.getAtivoNaoCirculante());
 		novoBalanco.setAluguel(balanco.getAluguel());
 		novoBalanco.setImobilizados(balanco.getImobilizados());

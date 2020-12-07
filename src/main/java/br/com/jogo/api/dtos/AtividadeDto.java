@@ -5,6 +5,7 @@ public class AtividadeDto {
 	private String ativo;
 	private String passivo;
 	private Float valor;
+	private Float valorAPrazo;
 	
 	public AtividadeDto() {}
 	
@@ -26,8 +27,17 @@ public class AtividadeDto {
 	public void setValor(Float valor) {
 		this.valor = valor;
 	}
+	public Float getValorAPrazo() {
+		return valorAPrazo;
+	}
+
+	public void setValorAPrazo(Float valorAPrazo) {
+		this.valorAPrazo = valorAPrazo;
+	}
+
 	@Override
 	public String toString() {
-		return "AtividadeDto [ativo=" + ativo + ", passivo=" + passivo + ", valor=" + valor + "]";
+		return "AtividadeDto [ativo=" + ativo + ", passivo=" + passivo + ", valor=" + valor + ", valorAPrazo="
+				+ valorAPrazo + "]";
 	}
 }
